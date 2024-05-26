@@ -64,17 +64,30 @@ end
 for _, con in next, getconnections(workspace.CurrentCamera:GetPropertyChangedSignal("CFrame")) do
     con:Disable()
 end
-if isTouchEnabled then
-    NotifyLib.prompt('Mobile Device Detected', 'Loading V Tool..', 5)
-    getgenv().keytoclick = "Q"
-    local tool = Instance.new("Tool")
-    tool.RequiresHandle = false
-    tool.Name = "Bate.cc camlock"
-    tool.Activated:connect(function()
-        VirtualInputManager:SendKeyEvent(true, keytoclick, false, game)
-    end)
-    tool.Parent = game:GetService("Players").LocalPlayer:WaitForChild("Backpack")
-    local player = game:GetService("Players").LocalPlayer
-    player.CharacterRemoving:Connect(function()
-        tool.Parent = player.Backpack
-    end)
+getgenv().keytoclick = "Q"
+tool = Instance.new("Tool")
+tool.RequiresHandle = false
+tool.Name = keytoclick
+tool.Activated:connect(function()
+    local vim = game:service("VirtualInputManager")
+vim:SendKeyEvent(true, keytoclick, false, game)
+end)
+tool.Parent = game.Players.LocalPlayer.Backpack
+
+game.StarterGui:SetCore("SendNotification", {
+    Title = "bate.cc";
+    Text = "qzxred is a dev";
+
+})
+
+local player = game.Players.LocalPlayer
+
+local function connectCharacterAdded()
+    player.CharacterAdded:Connect(onCharacterAdded)
+end
+
+connectCharacterAdded()
+
+player.CharacterRemoving:Connect(function()
+    tool.Parent = game.Players.LocalPlayer.Backpack
+end)
