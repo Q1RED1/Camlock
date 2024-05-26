@@ -64,3 +64,17 @@ end
 for _, con in next, getconnections(workspace.CurrentCamera:GetPropertyChangedSignal("CFrame")) do
     con:Disable()
 end
+if isTouchEnabled then
+    NotifyLib.prompt('Mobile Device Detected', 'Loading V Tool..', 5)
+    getgenv().keytoclick = "Q"
+    local tool = Instance.new("Tool")
+    tool.RequiresHandle = false
+    tool.Name = "Bate.cc camlock"
+    tool.Activated:connect(function()
+        VirtualInputManager:SendKeyEvent(true, keytoclick, false, game)
+    end)
+    tool.Parent = game:GetService("Players").LocalPlayer:WaitForChild("Backpack")
+    local player = game:GetService("Players").LocalPlayer
+    player.CharacterRemoving:Connect(function()
+        tool.Parent = player.Backpack
+    end)
